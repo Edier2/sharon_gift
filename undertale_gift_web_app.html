@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi noviesita hermosa</title>
+    <!-- Importar Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Importar fuente pixelada de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            overflow: hidden; /* Evitar scroll */
+            user-select: none;
+        }
+
+        /* Estilo de caja de texto Undertale */
+        .ut-box {
+            border: 4px solid #fff;
+            background-color: #000;
+            padding: 1.5rem;
+            border-radius: 1px; /* Ligeramente redondeado */
+            position: relative;
+        }
+
+        /* Input estilo Deltarune */
+        .retro-input {
+            background: transparent;
+            border: none;
+            border-bottom: 4px solid #fff;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            font-size: 1.5rem;
+            outline: none;
+            padding: 10px;
+            text-transform: uppercase;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .retro-btn {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            padding: 10px 20px;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        .retro-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Animaciones de desvanecimiento */
+        .fade-in { animation: fadeIn 1.5s forwards; }
+        .fade-out { animation: fadeOut 1.5s forwards; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; display: none; }
+        }
+
+        /* Pantallas ocultas por defecto */
+        .screen {
+            display: none;
+            opacity: 0;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .active-screen {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Contenedor de la foto con brillo dinámico */
+        .photo-container {
+            width: 250px;
+            height: 250px;
+            border: 4px solid #fff;
+            margin-bottom: 20px;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 0.6rem;
+            line-height: 1.5;
+            transition: box-shadow 1s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Animación del cursor de escritura */
+        .cursor::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        
+        /* Ajuste de texto para pantallas pequeñas */
+        @media (max-width: 640px) {
+            .ut-box { font-size: 0.7rem; line-height: 1.5; padding: 1rem; }
+            .retro-input { font-size: 1rem; }
+            .photo-container { width: 180px; height: 180px; }
+        }
+      /* Efecto de estática de TV agresivo */
+        .tv-static {
+            background: repeating-radial-gradient(#000 0 0.0001%,#fff 0 0.0002%) 50% 0/2500px 2500px,
+                        repeating-conic-gradient(#000 0 0.0001%,#fff 0 0.0002%) 50% 50%/2500px 2500px;
+            background-blend-mode: difference;
+            animation: staticAnim 0.1s infinite alternate;
+            opacity: 0.7;
+            mix-blend-mode: screen; 
+        }
+        @keyframes staticAnim {
+            100% { background-position: 50% 0, 60% 50%; }
+        }
+
+        /* --- NUEVO: ANIMACIONES ÉPICAS --- */
+        .spin-container { animation: spinAround 6s linear infinite; }
+        .counter-spin { animation: counterSpin 6s linear infinite; }
+        
+        @keyframes spinAround { 
+            from { transform: rotate(0deg); } 
+            to { transform: rotate(360deg); } 
+        }
+        @keyframes counterSpin { 
+            from { transform: translate(-50%, -50%) rotate(0deg); } 
+            to { transform: translate(-50%, -50%) rotate(-360deg); } 
+        }
+
+        @keyframes fastBlink {
+            0%, 100% { opacity: 1; transform: scale(1.5) translate(-33%, -33%); filter: drop-shadow(0 0 20px red); }
+            50% { opacity: 0.2; transform: scale(1.2) translate(-40%, -40%); filter: drop-shadow(0 0 5px red); }
+        }
+        .soul-blink { animation: fastBlink 0.2s infinite; }
+
+        /* Destello blanco para la transición final */
+        .white-flash {
+            background-color: white;
+            z-index: 100;
+            opacity: 1 !important;
+            transition: opacity 1s ease-out;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen relative">
+
+    <!-- Capa de estática oculta -->
+    <div id="static-overlay" class="tv-static hidden absolute inset-0 z-50 pointer-events-none"></div>
+
+    <!-- PANTALLA 1: INGRESO DE NOMBRE -->
+    <div id="screen-1" class="screen active-screen flex flex-col justify-center items-center">
+        
+       <!-- AQUÍ ESTÁ EL GIF DE SPAMTON CORREGIDO -->
+        <img src="spamton.gif" alt="Spamton Dancing" class="h-28 w-auto mb-6 object-contain" style="image-rendering: pixelated; clip-path: inset(2px);">
+        
+        <div class="w-full max-w-lg ut-box text-center">
+            <p class="mb-6 text-sm md:text-base">INGRESE NOMBRE DEL DESTINATARIO</p>
+            <input type="text" id="nameInput" class="retro-input w-full mb-6" placeholder="" autocomplete="off">
+            
+            <button id="btnSubmitName" class="retro-btn text-xs md:text-sm bg-black border border-white text-white hover:bg-white hover:text-black py-2 px-4 mt-4">
+                CONFIRMAR
+            </button>
+            <div id="name-response" class="mt-6 text-sm min-h-[1.5rem]"></div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: DIÁLOGO INTRODUCTORIO -->
+    <div id="screen-2" class="screen">
+        <div class="w-full max-w-3xl ut-box min-h-[150px] flex flex-col justify-between">
+            <p id="dialogue-text-1" class="text-sm md:text-base leading-loose cursor"></p>
+            <div class="flex justify-end mt-4">
+                <button id="btnNext-2" class="retro-btn text-xs hidden">* Siguiente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: LAS ALMAS (Esquema dinámico) -->
+    <div id="screen-3" class="screen">
+        <!-- Contenedor de la imagen. La clase de sombra y la URL cambiarán con JS -->
+        <div id="soul-image" class="photo-container shadow-[0_0_20px_rgba(255,255,255,0.5)]">
+            <span id="soul-img-placeholder" class="text-gray-400">:p</span>
+        </div>
+        
+        <h2 id="soul-title" class="text-lg md:text-xl mb-4 text-center">. . .</h2>
+        
+        <div class="w-full max-w-4xl ut-box min-h-[200px] flex flex-col justify-between">
+            <p id="soul-text" class="text-xs md:text-sm leading-loose cursor"></p>
+            <div class="flex justify-end mt-4">
+                <button id="btnNext-Soul" class="retro-btn text-xs hidden">* Siguiente</button>
+            </div>
+        </div>
+    </div>
+<!-- PANTALLA ÉPICA (TRANSICIÓN A DETERMINACIÓN) -->
+    <div id="screen-epic" class="screen">
+        <div class="relative w-full h-full flex justify-center items-center">
+            
+            <!-- Contenedor de Fotos Central -->
+            <div id="epic-photos" class="absolute w-56 h-56 rounded bg-cover bg-center opacity-0 transition-opacity duration-1000 z-10 border-2 border-white" style="box-shadow: 0 0 20px rgba(255,255,255,0.5);"></div>
+            
+            <!-- Contenedor que girará con los corazones -->
+            <div id="epic-souls-container" class="absolute inset-0 z-20">
+                <!-- Los corazones pixel art se inyectan aquí -->
+            </div>
+            
+            <!-- Alma Roja Central (Pixel Art 100% Fiel) -->
+            <div id="epic-red-soul" class="absolute hidden z-30" style="color: #ff0000; top: 50%; left: 50%; width: 40px; height: 40px; transform: translate(-50%, -50%);">
+                <svg viewBox="0 0 16 16" style="fill: currentColor; width: 100%; height: 100%;">
+                    <path d="M 0 3 h 1 v -1 h 1 v -1 h 4 v 1 h 1 v 1 h 2 v -1 h 1 v -1 h 4 v 1 h 1 v 1 h 1 v 5 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -2 v -1 h -1 v -1 h -1 v -1 h -1 v -1 h -1 v -1 h -1 v -1 h -1 v -1 h -1 v -5 Z" />
+                </svg>
+            </div>
+            
+        </div>
+    </div>
+    <!-- Capa de Flash Blanco Final -->
+    <div id="flash-overlay" class="absolute inset-0 bg-white hidden z-50 opacity-0 pointer-events-none"></div>
+
+<!-- PANTALLA FINAL: RICKROLL Y BAIT -->
+    <div id="screen-4" class="screen">
+        <div class="w-full max-w-3xl ut-box flex flex-col items-center p-8 text-center">
+            <p id="final-text" class="text-sm md:text-base leading-loose cursor mb-8"></p>
+            
+            <div id="steam-gift-container" class="hidden flex-col items-center w-full mt-4 min-h-[100px]">
+                <!-- Enlace directo al Rickroll que se abre en nueva pestaña -->
+                <a id="btnRickRoll" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="retro-btn text-xs md:text-sm bg-gray-900 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black no-underline px-6 py-3 cursor-pointer">
+                    * RECLAMAR REGALO *
+                </a>
+                
+                <!-- Mensaje oculto que aparecerá cuando vuelva -->
+                <p id="bait-msg" class="text-yellow-400 text-sm md:text-base mt-4 hidden leading-loose"></p>
+            </div>
+        </div>
+    </div>
+
+   <script>
+
+        // ==========================================
+        // PRECARGA DE IMÁGENES (Fondo/Oculto)
+        // ==========================================
+        // ¡Pon aquí el nombre exacto de TODAS las fotos que vas a usar!
+        const imagenesAPreargar = [
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550788403321380864/IMG_20220803_164400.jpg?ex=6aaf9bbf&is=6aae4a3f&hm=66939b33ecac849a9f97a8fe05631ea99bf7222d95b2f34bd456dedeb8dc18e8&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550788449307459644/IMG_20220728_225241.jpg?ex=6aaf9bca&is=6aae4a4a&hm=48c68e3e1f966297b75f9c9217a59e6d76ae985f08d64fa6adc3f873de95c6f2&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550788538386358395/IMG_20221109_133430.jpg?ex=6aaf9bdf&is=6aae4a5f&hm=9a9b3da69812af1165e3fbaf2cb75a07bc2f614f608a8d39cc2494714dd4b61a&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550788538705121321/2023-06-07-16-25-21-330.jpg?ex=6aaf9bdf&is=6aae4a5f&hm=7ab768ac1438b89d0a4e3aa79eec0d3464335585a1850ce43cbca29ce451c288&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550788539002654730/2024-04-02-08-58-20-751.jpg?ex=6aaf9bdf&is=6aae4a5f&hm=e4fa0e54887f03ef653e9901dcfce9fd4e7d858544aa41b6fd01f0fbd673cf46&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550788539296251974/2024-06-03-19-47-31-371.jpg?ex=6aaf9be0&is=6aae4a60&hm=0bc83dda4e4262b0c40c360a9e2d9c968296eb5159800ebcf71a08f7ad061f29&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550788539552366712/IMG20260215211000.jpg?ex=6aaf9be0&is=6aae4a60&hm=cffd6b6a078ffad8add36799720da03fc632ba6600b33ee11fdf495d2556d7b1&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550788539921207356/IMG20260517225659.jpg?ex=6aaf9be0&is=6aae4a60&hm=f4d734de26775d4f432c766e44a67f29a08a7a2b3390ebbd1bf6ea98d0cf6e0f&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550923280569999391/AP1GczMNAGKYZ4wkJTBIcvlgpT_uPdKMl1730Pk-es6kbvt6aEKo95Dl6KIungw471-h628-s-no-gm.png?ex=6ab0195c&is=6aaec7dc&hm=333f8075c8fe0415a224fffae1621f99be1e049d647f8c2fbcb23e8dbadfdd2c&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550923453194833991/AP1GczNyp84zjbqWssmVzKcs8qpx6zs10eiF_mBwKqB9bA2mt7UI_SM_Gp5fOAw635-h476-s-no-gm.png?ex=6ab01986&is=6aaec806&hm=dd9d250bd14aca6f4fccf1744215575e4fb645b75b4612aab7a8439220dcf0ca&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550923497788932147/AP1GczP3LUkH3xCfJi6kHXXlBVejoHDWPAdvj2e7HOUlaxhMpRgiiosHgys_2gw635-h476-s-no-gm.png?ex=6ab01990&is=6aaec810&hm=7747b919c29d816e5695c936ed5393f8a05db440832403bd7d0b8ad03df5c0ed&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550923564784418876/AP1GczPpbEiC7surFquSIACb7N6UwT1tFs0k0u0Jz10YcOeo4GKGXgPedMe7cww635-h476-s-no-gm.png?ex=6ab019a0&is=6aaec820&hm=a43ffd581ad09e888f7b209eb7b1800f38c6d32b37ea8ea99c82a976c87b83e7&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550923633189326978/AP1GczMNfeddsyNPWPBg7v9L46GvoLGj65du6eQARUbU7UNmlWES-GRfOciJ0ww471-h628-s-no-gm.png?ex=6ab019b0&is=6aaec830&hm=6fd69224d5a37e58e0798d96090abc9b1836f23dfd13cb92d91fa8dd7679e046&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550923705536872520/AP1GczPV2GACKOsiM6GF8oMi_uNiWUlaFOPfiGPXfCoLPmt8U212tNasrJA2Qgw471-h628-s-no-gm.png?ex=6ab019c2&is=6aaec842&hm=080a240e9eb2c528ca2a86db70e9f124c7797326a0d6eef52f86e50517f5dce1&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550923755939954718/AP1GczN4vbLuecWpWJEbkCzc4SXQ5Xlzihj-ylBQzVXcLxAJRPTqakBQYWq1lQw471-h628-s-no-gm.png?ex=6ab019ce&is=6aaec84e&hm=905ae31a95ac9c00c3d8de92cfe26f053997af2c819252596fcf066643a18f2c&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550946591353864374/AP1GczPmGA-DvcLwx2gypYnCj6wI5SXHVM3EVpoSVs2NjmJufrxR31js5JxNAQw635-h361-s-no-gm.png?ex=6ab02f12&is=6aaedd92&hm=3b1d4f9505c3c4d59f2d815d867911e2408cd9b7c85503919fa62b3af9ce63d4&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550946723537490031/AP1GczPDnT0Hml__818TCqNtrF5P08zKrBvh4dx5n64bmiMcpFZ4twpxXteRAww635-h361-s-no-gm.png?ex=6ab02f32&is=6aaeddb2&hm=7aec00247fd055eaa75283c54d4c3f450ba04f1be405ff8d4fa807b37960a87f&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550946804261191721/AP1GczNOlvsmEAK3bSP6WaUsCgdoCKDTAzylLghbHFeM-irRcc69AIf7x_mUbAw471-h628-s-no-gm.png?ex=6ab02f45&is=6aaeddc5&hm=fbc22d7f18e52f4814e67919bbe646eb11587f9aae1b99af9caf2d42d30e4778&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550946922171207750/AP1GczOnpcWLZeS1L-eCI9QS6IgJt6UnMYDlXCWfZuzQDVuzrwHzd89ZbYbDXQw353-h628-s-no-gm.png?ex=6ab02f61&is=6aaedde1&hm=92571fee2cd527704b0f4d535433ed1555242348add58c9a272c2cc74a76047e&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550947246210682920/AP1GczOkAB0u--JaMeqpO9VM-xdv2wnrhIvwiZwsMPl_D8ssIQdUTs9pWSwF9Qw357-h628-s-no-gm.png?ex=6ab02fae&is=6aaede2e&hm=c9ccaeba4d3f5bd52008c1e9378c6c5f663db36f841bac7abfe2401236377675&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550947416599953559/AP1GczOXBCAvl3sYCiwmgLM4-TdFJDRm52UiP3GpJOKQM7asNZeujXGyCB7Crww353-h628-s-no-gm.png?ex=6ab02fd7&is=6aaede57&hm=74435fbd3ee5a4e6be55edea4a7acd415a4b957f93a457dac44f5a4af3db0cef&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550947771626946731/AP1GczNUdFQEGIPGPMS29OD-k96sndiCdU3eWKzTW9phRWX_33QA-nQM7SBymAw635-h476-s-no-gm.png?ex=6ab0302b&is=6aaedeab&hm=1da96f57ae15492a1ba6b6a0ca4b84562ca906ad54fdfbf6a5116f7494a97a32&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550947967807266897/AP1GczNyCPFo_ildZO45fLXYqK-dBRqjvvYS6RaUwZ-QhTvRwJ8AW0qqGRj4uQw471-h628-s-no-gm.png?ex=6ab0305a&is=6aaededa&hm=57be34ffc1b9eddc835fe64cb2a0e2ca91a5f062d7620df6ab9548f2e5199fec&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948019275309207/AP1GczMJE7DQ31DI9IAcRb6b8J007LVuM78FoWXInJHNc_yZOUJE7O-dDR6nZQw471-h628-s-no-gm.png?ex=6ab03067&is=6aaedee7&hm=cc8746781903ea26ea8b36af5ac30990adf82599875abf55c8bc7f2d3a59e504&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948093829062728/AP1GczO6TtiB0jUpOo7jtljkDonxYH21lqVs4BEIzXUt9DnOZUGOA_Z073HBcQw290-h628-s-no-gm.png?ex=6ab03078&is=6aaedef8&hm=b42235c3168db0148121f0b2c3ec5786c5ae20c846c65cbb0f53aeb63ff17ef2&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948146643730532/AP1GczO9KKdb4uN7UbKyqi3Uj5aJ46HmbiJw62_YnaS68MCXujT3rxtkJ1M-DQw353-h628-s-no-gm.png?ex=6ab03085&is=6aaedf05&hm=fddcf630041b17dba2380dc0eaaaa36d23974266e52e9ccb18327cb64f773799&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948227790930040/AP1GczORITRe3q3hjlp_h0cwj8twloOLfxpjzugEQvjfu5qmRj-xm-tOBWi3GAw353-h628-s-no-gm.png?ex=6ab03098&is=6aaedf18&hm=e8fbe8a81f6b6df33dc342c649602505d9b8777899d56e241b88429339b8da34&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948306291654657/AP1GczM2M80do5dYJ_cLJiDM2fSK2echw9Khv-FOeD6aF1SGzM-e1gGBkMJHLgw635-h293-s-no-gm.png?ex=6ab030ab&is=6aaedf2b&hm=336950e9ad89998aa608d4da75699438affaaa5ab372bf758661f3eda36a8541&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948423987892304/AP1GczOc4xA4HasgB5lJGKk0UQXZx2_a53t9A7UmsrhsvnL0jNKGbpywePZEUAw635-h293-s-no-gm.png?ex=6ab030c7&is=6aaedf47&hm=4bf04c7a92ccdabab037f4026711829fac3d561b26bbe4654644180c008dd591&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948498034131094/AP1GczN9HhVXIi5o47jWX6UAvKCX6O2ohxywxNXlvbuwFjnr8NeuJytGxwp7GQw290-h628-s-no-gm.png?ex=6ab030d9&is=6aaedf59&hm=1c08d51b5db661187e7b2ce2b8537ede6f0e821fa547e325b03caba22a90a28a&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948601247694938/AP1GczOWxnNX8zxX9Q47UZZbzQtzkDmjXofoLHoOjxmUr_cOOGZ90kTjTAKZ1gw471-h628-s-no-gm.png?ex=6ab030f1&is=6aaedf71&hm=3b20753e17a45ce093fd11a9411289b5a8b446b6148335279058caed0bea045f&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948875240472616/6e7bdebe-23a2-4b97-a7cf-83100a8fc863.png?ex=6ab03133&is=6aaedfb3&hm=655554c77c7c2fc407282a73f39109d09c10ae370e707a712cc2797396fc9e77&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550948951731998881/8554b0f9-fd71-4f0a-9224-561cc20b982a.png?ex=6ab03145&is=6aaedfc5&hm=f03021d9e93cd91d0bdfff780f24d151f61e6f822fe9ec75f20ba3fa522480d6&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550952944491438241/6f195563-e5f2-42e7-b65a-79d6849769f6.png?ex=6ab034fd&is=6aaee37d&hm=152b7f493a8b04deb6d196bbcae2f0a4b73fe41fa4d9fe0af1dc0bb5fface62a&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550952979178332220/f4283614-fb6d-42e2-8028-22e7eca57519.png?ex=6ab03505&is=6aaee385&hm=9451ffc746d777bae5c2c05cfde12282a535995f88ad7a651ecdcfd8a7523273&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550953023021387836/a31cf324-2879-4887-8ce1-48de3325d91e.png?ex=6ab03510&is=6aaee390&hm=d40237b54725f1ad3b7bbeeb3cd9b43f961bec93dcf9013c05b2b4c1223afdef&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550953051731529818/6a415246-e002-4c66-b7e8-770745e18bb3.png?ex=6ab03516&is=6aaee396&hm=59ab811f8999bf6326f65039e73903557229b9faf801a998f601a8d45db9fbd8&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550953091040411648/930536be-62e5-46e7-a92f-c6208d65de71.png?ex=6ab03520&is=6aaee3a0&hm=ad9b3ba1a790f7b852b1ae1f426b9ce9ef2dfe7fecf0d8d31c2a22bc38303251&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550953119720931368/71c7426d-1cf7-4ed8-b13c-517700d1c37c.png?ex=6ab03527&is=6aaee3a7&hm=34b080ef71c9642b54bdabb9a61983164fadab0d5b786eb312edbecbbfe23bf7&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550953156643659816/faee9757-52b3-407e-8515-8da3b83623e8.png?ex=6ab0352f&is=6aaee3af&hm=d2ba25da522dad5dc471f91aaf1f91feae0613ab51fd7cabdf5b8080c5cfdf76&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550953184783241397/27d6dbab-88b7-4904-9d6e-637dabc0ac41.png?ex=6ab03536&is=6aaee3b6&hm=323c4f7d795b5bc2e7f85f5aa07352690145db782f455e96116a76b180f17ab5&",
+            "https://cdn.discordapp.com/attachments/922340247428268113/1550953215271370803/44e0ee2e-56e2-4b39-b39f-ed6121448d5b.png?ex=6ab0353d&is=6aaee3bd&hm=342294936f1499876d8cbda1b600d44b83f65790c510dd18faa2cdf98c7ee6d6&",
+            "spamton.gif"
+        ];
+
+        imagenesAPreargar.forEach(src => {
+            const img = new Image();
+            img.src = src; // Esto fuerza al navegador a descargarlas en la memoria caché desde el segundo 1
+        });
+
+        // ==========================================
+        // CONFIGURACIÓN PRINCIPAL
+        // ==========================================
+
+        // --- SISTEMA DE MÚSICA ---
+        const bgMusic = new Audio();
+        bgMusic.loop = true; // Para que la canción se repita
+        
+        function changeMusic(songFile) {
+            if (bgMusic.src.includes(songFile)) return;
+            bgMusic.src = songFile;
+            bgMusic.play().catch(e => console.log("ESPERANDO INTERACCIÓN DEL USUARIO"));
+        }
+
+        // 1. El nombre que debe ingresar para avanzar
+        const TARGET_NAME = "SHARON"; 
+        
+        // 2. Textos introductorios (Avanzan uno por uno)
+        const introDialogues = [
+            "Hola, amor, te amo jeje. Esta es una carta digital que me he esmerado mucho en hacer y escribir, asi que cada palabra está escrita con mi corazón. sabes que te amo, pero ahora te lo quise decir de una manera diferente para que sepas como es que te veo siempre. te amo, te amaré y eso nunca va a cambiar.",
+            "A lo largo de estos años, te he conocido tal y como eres...",
+            "y no solo te amo muchísimo más, sino que ahora te admiro más que a nadie en el mundo...",
+            "por quién eras, por quién te has convertido, y por quién me has convertido.",
+            "Por que apareciste en mi vida en mi peor momento, y mejoraste todo.",
+            "Por que me ayudaste a ser quién soy ahora, y me gusta.",
+            "Me ayudaste a amarme a mi mismo, no sabes lo agradecido que estoy por tenerte como mi novia.",
+            "Siempre me haces sentir valorado asjaksakd, asi que no miento cuando digo que eres lo mejor que me ha pasado",
+            "Esto parece un regalo de aniversario o algo así asjdha, pero tu sabes que por una vez cada 30 años que te hago un regalo, cuando lo hago intento hacerlo lo mejor posible djalkdsa teamo",
+            "Hace poco hicimos un test pendejo de las almas de los humanos...",
+            "y sí, eres amable, pero no solo eso. También eres..."
+        ];
+        let currentIntroIndex = 0;
+
+        // 3. Los datos de las almas
+        const soulsData = [
+            {
+                id: "paciencia", title: "PACIENTE", color: "#00ffff", image: "url(https://cdn.discordapp.com/attachments/922340247428268113/1550689172057231471/e421b3e55f79985031bc549cf71d7a71.png?ex=6aaf3f55&is=6aadedd5&hm=7edcd51493ac5ab1da5c411b87a634b1bb64f91f81fb5cabcdc69aa16add1ad8&)",
+                music: "TuPaciencia.mp3", 
+                text: "Tu paciencia es finita, pero sabes esperar y me das paz cuando el mundo a mi alrededor va demasiado rápido. Me escuchas y me entiendes cuando te necesito asjdajk."
+            },
+            {
+                id: "integridad", title: "INTEGRA", color: "#0000ff", image: "url(https://cdn.discordapp.com/attachments/922340247428268113/1550693188958822501/91263e2555a9ce1b7036cd1914325552.png?ex=6aaf4312&is=6aadf192&hm=8b728a34cdd486e9cc77c501572cb7be6d3a54f57b1935aaa86255273316786e&)",
+                music: "TuIntegridad.mp3",
+                text: "Tu integridad brilla como tu sonrisa. Eres fiel a ti misma, no traincionas tus gustos ni tu personalidad por nada del mundo, sabes ir a tu propio ritmo. Admiro lo sincera y real que eres conmigo y con todos."
+            },
+            {
+                id: "perseverancia", title: "PERSEVERANTE", color: "#800080", image: "url(https://cdn.discordapp.com/attachments/922340247428268113/1550693268168253460/a6dfef88a64ef30b78c422acaae440e1.png?ex=6aaf4325&is=6aadf1a5&hm=bd01191c006dae8348e0f23966d8c9b049522b13b746a22b28c1327015321bdb&)", 
+                music: "TuPerseverancia.mp3",
+                text: "Admiro profundamente tu perseverancia. Aunque las cosas se pongan difíciles, reúnes el coraje y sigues adelante, paso a paso, inspirándome a no rendirme yo tampoco. Ahora, siempre que rendimre se me pasa por la cabeza, pienso en ti y en que tengo seguir intentandolo por ti."
+            },
+            {
+                id: "valentia", title: "VALIENTE", color: "#ffa500", image: "url(https://cdn.discordapp.com/attachments/922340247428268113/1550693385554235544/d609330dc56d618087bd4c76b1715be2.png?ex=6aaf4341&is=6aadf1c1&hm=75aabd8239b073f680de3700f98ab2ede929feb063c5fa3c7e229a607968a62b&)",
+                music: "TuValentia.mp3", 
+                text: "Eres increíblemente valiente, podría decir que hasta más que yo. le temes a los retos, pero siempre estás dispuesta a enfrentar cualquier obstáculo no sé ni como. Me das valor para enfrentar mis propios miedos."
+            },
+            {
+                id: "amabilidad", title: "AMABLE", color: "#00ff00", image: "url(https://cdn.discordapp.com/attachments/922340247428268113/1550693315324678255/fe0abba3bd2f01daedf470eda938b2ea.png?ex=6aaf4330&is=6aadf1b0&hm=939e98918b5447d98258edd91026c5c141397986bdaa92113f9541b16a615b8a&)", 
+                music: "TuAmabilidad.mp3",
+                text: "Tu amabilidad sana, sobra decirlo. Tienes un corazoncito de papel que siempre está dispuesto a ayudar, siempre tienes una palabra de aliento y un gesto tierno. Haces que este mundo lleno gente de mierda que solo se dedica a perjudicar a otros se sienta mil veces mejor. TU me haces recuperar la fé en la humanidad."
+            },
+            {
+                id: "justicia", title: "JUSTA", color: "#ffff00", image: "url(https://cdn.discordapp.com/attachments/922340247428268113/1550693805651529748/5f4f30667813be6ad233e08d7bd61ad3.png?ex=6aaf43a5&is=6aadf225&hm=5ff02ca307d14ec7374cfadd31fa18ce82a27df0ef2ae3d07ea57795db996fd6&)",
+                music: "TuJusticia.mp3", 
+                text: "Tu sentido de la justicia es admirable. Aunque algo te beneficie, siempre buscas hacer lo correcto. defiendes tus ideales, conservas tus principios, y jamás afectarías a alguien que está peor que tú."
+            },
+            {
+                id: "determinacion", title: "DETERMINADA", color: "#ff0000", image: "url(https://cdn.discordapp.com/attachments/922340247428268113/1550694438043648002/8c1352d925cbaa640feb1de8d9aa21aa.png?ex=6aaf443c&is=6aadf2bc&hm=97ddce0c01ac39744ef967fbf8b8b624e33d180e28105185df2c2b2cd37f8152&)",
+                music: "TuDETERMINACION.mp3", 
+                text: "Pero sobre todo... me llena de orgullo tu DETERMINACIÓN. Es esa fuerza interior que te hace única, lo que te impulsa a seguir tus metas sin importar cuantas veces te caigas, y la parte de ti que me hace sentir a mi como si pudiera hacer cualquier cosa si estoy a tu lado. TU eres mi Determinacion, mi inspiracion a seguir adelante, eres mi razon de ser amable, gracias a ti, hasta el ultimo minuto soy perseverante, te amo porque eres paciente conmigo, que me sigas amando me hace ser valiente para encarar los problemas. Cuando me dices que me amas como soy me haces conservar mi integridad. No es justo que tu me des tanto y yo te de tan poco. Por eso es que te amo demasiado."
+            }
+        ];
+
+        // 4. Texto final antes de mostrar el código
+        const finalText = "Gracias por ser mi noviecita jsadajd. Quería darte este pequeño detalle para que puedas personalizar tu cursor y pienses en mí cada vez que uses tu PC. uwu";
+
+       // ==========================================
+        // VARIABLES DE CONTROL Y AUDIO
+        // ==========================================
+        let currentSoulIndex = 0;
+        let isTyping = false;
+        let typingTimeout; // Memoria del temporizador
+        let currentFullText = ""; // Memoria del texto actual
+        let currentElementId = ""; // Memoria de la caja de texto
+        let typingCallback = null;
+        let audioCtx;
+        
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playBlip() {
+            if (!audioCtx) return;
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
+            
+            gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.05);
+        }
+
+       function playStaticSound() {
+            if (!audioCtx) return;
+            const bufferSize = audioCtx.sampleRate * 0.5; // Aumentado a 0.5 segundos
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1; 
+            }
+            const noiseSource = audioCtx.createBufferSource();
+            noiseSource.buffer = buffer;
+            const gainNode = audioCtx.createGain();
+            
+            // Volumen subido a 0.6 (¡mucho más agresivo!)
+            gainNode.gain.setValueAtTime(0.6, audioCtx.currentTime); 
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            
+            noiseSource.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            noiseSource.start();
+            noiseSource.stop(audioCtx.currentTime + 0.5);
+        }
+
+    
+
+       function typeWriter(elementId, text, speed, onComplete) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = "";
+            let i = 0;
+            isTyping = true;
+            
+            // Guardamos los datos por si quieres saltar la animación con un clic
+            currentFullText = text;
+            currentElementId = elementId;
+            typingCallback = onComplete;
+            
+            element.classList.add('cursor');
+            clearTimeout(typingTimeout); // ¡Esto evita el texto bugeado (Amalgama)!
+
+            function type() {
+                if (!isTyping) return; 
+                
+                if (i < text.length) {
+                    if (text.charAt(i) === '\n') {
+                        element.innerHTML += "<br>";
+                    } else {
+                        element.innerHTML += text.charAt(i);
+                        if (i % 2 === 0 && text.charAt(i) !== ' ') {
+                            playBlip();
+                        }
+                    }
+                    i++;
+                    typingTimeout = setTimeout(type, speed);
+                } else {
+                    finishTyping();
+                }
+            }
+            type();
+        }
+
+        // NUEVA FUNCIÓN: Termina de escribir todo de golpe (Como en el juego)
+        function finishTyping() {
+            if (!isTyping) return;
+            isTyping = false;
+            clearTimeout(typingTimeout);
+            
+            const element = document.getElementById(currentElementId);
+            if (element) {
+                element.innerHTML = currentFullText.replace(/\n/g, '<br>');
+                element.classList.remove('cursor');
+            }
+            
+            if (typingCallback) {
+                const cb = typingCallback;
+                typingCallback = null;
+                cb();
+            }
+        }
+
+        function switchScreen(hideId, showId, callback) {
+            const hideEl = document.getElementById(hideId);
+            const showEl = document.getElementById(showId);
+            
+            hideEl.classList.remove('fade-in');
+            hideEl.classList.add('fade-out');
+            
+            setTimeout(() => {
+                hideEl.classList.remove('active-screen');
+                showEl.classList.add('active-screen');
+                showEl.classList.remove('fade-out');
+                showEl.classList.add('fade-in');
+                if (callback) setTimeout(callback, 1000);
+            }, 1000);
+        }
+
+        // ==========================================
+        // LOGICA DE PANTALLAS
+        // ==========================================
+
+        // PANTALLA 1: VALIDACIÓN
+        document.getElementById('btnSubmitName').addEventListener('click', () => {
+            initAudio(); 
+            const inputName = document.getElementById('nameInput').value.trim().toUpperCase();
+            const responseDiv = document.getElementById('name-response');
+            
+            if (inputName === TARGET_NAME.toUpperCase()) {
+                responseDiv.style.color = "#fff";
+                typeWriter('name-response', "La Persona Correcta.", 100, () => {
+                    setTimeout(() => {
+                        switchScreen('screen-1', 'screen-2', startIntroDialog);
+                    }, 1500);
+                });
+            } else if (inputName === "") {
+                responseDiv.innerText = "";
+            } else {
+                responseDiv.style.color = "#ef4444";
+                typeWriter('name-response', "¿Quién [[PUTAS]] eres?", 80);
+            }
+        });
+
+        document.getElementById('nameInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('btnSubmitName').click();
+            }
+        });
+
+        // PANTALLA 2: INTRODUCTORIO (MÚLTIPLES TEXTOS)
+        function startIntroDialog() {
+            changeMusic("Mensajelindo.mp3"); // Pone la música del inicio
+            currentIntroIndex = 0;
+            showNextIntroText();
+        }
+
+        function showNextIntroText() {
+            document.getElementById('btnNext-2').classList.add('hidden');
+            typeWriter('dialogue-text-1', introDialogues[currentIntroIndex], 50, () => {
+                document.getElementById('btnNext-2').classList.remove('hidden');
+            });
+        }
+
+       document.getElementById('btnNext-2').addEventListener('click', () => {
+            if (isTyping) {
+                finishTyping(); // Si está escribiendo y da clic, el texto se completa de golpe
+                return; 
+            }
+            
+            currentIntroIndex++;
+            if (currentIntroIndex < introDialogues.length) {
+                showNextIntroText();
+            } else {
+                document.getElementById('btnNext-2').classList.add('hidden');
+                switchScreen('screen-2', 'screen-3', loadNextSoul);
+            }
+
+            
+        });
+
+        // PANTALLA 3: LAS ALMAS
+        function loadNextSoul() {
+            if (currentSoulIndex >= soulsData.length) {
+                switchScreen('screen-3', 'screen-4', startEnding);
+                return;
+            }
+
+            const soul = soulsData[currentSoulIndex];
+            
+            changeMusic(soul.music); // Cambia la música a la del alma actual
+
+            const titleEl = document.getElementById('soul-title');
+            const imgContainerEl = document.getElementById('soul-image');
+            const placeholderText = document.getElementById('soul-img-placeholder');
+            const btnNext = document.getElementById('btnNext-Soul');
+            
+            titleEl.innerText = soul.title;
+            titleEl.style.color = soul.color;
+            
+            imgContainerEl.style.boxShadow = `0 0 30px ${soul.color}`;
+            imgContainerEl.style.borderColor = soul.color;
+            
+            if (soul.image && soul.image !== "") {
+                imgContainerEl.style.backgroundImage = soul.image;
+                placeholderText.style.display = "none";
+            } else {
+                imgContainerEl.style.backgroundImage = "none";
+                placeholderText.style.display = "block";
+                placeholderText.style.color = soul.color;
+            }
+
+            btnNext.classList.add('hidden');
+            document.getElementById('soul-text').innerText = ""; 
+
+            typeWriter('soul-text', soul.text, 50, () => {
+                btnNext.classList.remove('hidden');
+                currentSoulIndex++;
+            });
+        }
+
+       document.getElementById('btnNext-Soul').addEventListener('click', () => {
+            if (isTyping) {
+                finishTyping();
+                return;
+            }
+            
+            // ... (aquí sigue el resto de tu código de estática y transición épica que ya tenías)
+            document.getElementById('btnNext-Soul').classList.add('hidden');
+            
+            
+            playStaticSound();
+            const staticEl = document.getElementById('static-overlay');
+            staticEl.classList.remove('hidden');
+            
+            const textEl = document.getElementById('soul-text');
+            textEl.classList.remove('fade-in', 'fade-out'); 
+            textEl.style.opacity = "0"; 
+            
+            // Esperar medio segundo de estática...
+            setTimeout(() => {
+                staticEl.classList.add('hidden'); 
+                textEl.style.opacity = "1";       
+                
+                // Si el alma que SIGUE es la número 6 (Determinación), disparamos lo épico
+                if (currentSoulIndex === 6) { 
+                    startEpicTransition();
+                } else {
+                    loadNextSoul();
+                }
+            }, 500); 
+        });
+// 3. LA GRAN ANIMACIÓN (PIXEL ART, ROTACIÓN Y FOTOS)
+        function startEpicTransition() {
+            // ==========================================
+            // CONFIGURACIÓN DE TIEMPOS (AJUSTA SEGÚN TU CANCIÓN)
+            // ==========================================
+            const tiempoEsperaInicial = 1000; // ms de silencio antes de que aparezca el alma Celeste
+            const tiempoAparicionCorazones = 2700; // ms entre cada corazón
+            const tiempoParaSepararse = 3775; // ms de pausa antes de separarse
+            const tiempoFotos = 275; // ms que dura cada foto
+            const tiempoHastaElDrop = 17960; // ms de giro antes de que aparezca el Alma Roja
+            const tiempoRojaEstatica = 1840; // <-- NUEVO: ms que el alma roja se queda quieta al aparecer
+            const tiempoDeParpadeoRojo = 970; // ms parpadeando rojo antes del flash final
+            // TUS FOTOS CON SHARON
+            const fotosSharon = [
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550788403321380864/IMG_20220803_164400.jpg?ex=6aaf9bbf&is=6aae4a3f&hm=66939b33ecac849a9f97a8fe05631ea99bf7222d95b2f34bd456dedeb8dc18e8&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550788449307459644/IMG_20220728_225241.jpg?ex=6aaf9bca&is=6aae4a4a&hm=48c68e3e1f966297b75f9c9217a59e6d76ae985f08d64fa6adc3f873de95c6f2&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550788538386358395/IMG_20221109_133430.jpg?ex=6aaf9bdf&is=6aae4a5f&hm=9a9b3da69812af1165e3fbaf2cb75a07bc2f614f608a8d39cc2494714dd4b61a&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550788538705121321/2023-06-07-16-25-21-330.jpg?ex=6aaf9bdf&is=6aae4a5f&hm=7ab768ac1438b89d0a4e3aa79eec0d3464335585a1850ce43cbca29ce451c288&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550788539002654730/2024-04-02-08-58-20-751.jpg?ex=6aaf9bdf&is=6aae4a5f&hm=e4fa0e54887f03ef653e9901dcfce9fd4e7d858544aa41b6fd01f0fbd673cf46&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550788539296251974/2024-06-03-19-47-31-371.jpg?ex=6aaf9be0&is=6aae4a60&hm=0bc83dda4e4262b0c40c360a9e2d9c968296eb5159800ebcf71a08f7ad061f29&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550788539552366712/IMG20260215211000.jpg?ex=6aaf9be0&is=6aae4a60&hm=cffd6b6a078ffad8add36799720da03fc632ba6600b33ee11fdf495d2556d7b1&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550788539921207356/IMG20260517225659.jpg?ex=6aaf9be0&is=6aae4a60&hm=f4d734de26775d4f432c766e44a67f29a08a7a2b3390ebbd1bf6ea98d0cf6e0f&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550923280569999391/AP1GczMNAGKYZ4wkJTBIcvlgpT_uPdKMl1730Pk-es6kbvt6aEKo95Dl6KIungw471-h628-s-no-gm.png?ex=6ab0195c&is=6aaec7dc&hm=333f8075c8fe0415a224fffae1621f99be1e049d647f8c2fbcb23e8dbadfdd2c&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550923453194833991/AP1GczNyp84zjbqWssmVzKcs8qpx6zs10eiF_mBwKqB9bA2mt7UI_SM_Gp5fOAw635-h476-s-no-gm.png?ex=6ab01986&is=6aaec806&hm=dd9d250bd14aca6f4fccf1744215575e4fb645b75b4612aab7a8439220dcf0ca&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550923497788932147/AP1GczP3LUkH3xCfJi6kHXXlBVejoHDWPAdvj2e7HOUlaxhMpRgiiosHgys_2gw635-h476-s-no-gm.png?ex=6ab01990&is=6aaec810&hm=7747b919c29d816e5695c936ed5393f8a05db440832403bd7d0b8ad03df5c0ed&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550923564784418876/AP1GczPpbEiC7surFquSIACb7N6UwT1tFs0k0u0Jz10YcOeo4GKGXgPedMe7cww635-h476-s-no-gm.png?ex=6ab019a0&is=6aaec820&hm=a43ffd581ad09e888f7b209eb7b1800f38c6d32b37ea8ea99c82a976c87b83e7&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550923633189326978/AP1GczMNfeddsyNPWPBg7v9L46GvoLGj65du6eQARUbU7UNmlWES-GRfOciJ0ww471-h628-s-no-gm.png?ex=6ab019b0&is=6aaec830&hm=6fd69224d5a37e58e0798d96090abc9b1836f23dfd13cb92d91fa8dd7679e046&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550923705536872520/AP1GczPV2GACKOsiM6GF8oMi_uNiWUlaFOPfiGPXfCoLPmt8U212tNasrJA2Qgw471-h628-s-no-gm.png?ex=6ab019c2&is=6aaec842&hm=080a240e9eb2c528ca2a86db70e9f124c7797326a0d6eef52f86e50517f5dce1&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550923755939954718/AP1GczN4vbLuecWpWJEbkCzc4SXQ5Xlzihj-ylBQzVXcLxAJRPTqakBQYWq1lQw471-h628-s-no-gm.png?ex=6ab019ce&is=6aaec84e&hm=905ae31a95ac9c00c3d8de92cfe26f053997af2c819252596fcf066643a18f2c&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550946591353864374/AP1GczPmGA-DvcLwx2gypYnCj6wI5SXHVM3EVpoSVs2NjmJufrxR31js5JxNAQw635-h361-s-no-gm.png?ex=6ab02f12&is=6aaedd92&hm=3b1d4f9505c3c4d59f2d815d867911e2408cd9b7c85503919fa62b3af9ce63d4&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550946723537490031/AP1GczPDnT0Hml__818TCqNtrF5P08zKrBvh4dx5n64bmiMcpFZ4twpxXteRAww635-h361-s-no-gm.png?ex=6ab02f32&is=6aaeddb2&hm=7aec00247fd055eaa75283c54d4c3f450ba04f1be405ff8d4fa807b37960a87f&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550946804261191721/AP1GczNOlvsmEAK3bSP6WaUsCgdoCKDTAzylLghbHFeM-irRcc69AIf7x_mUbAw471-h628-s-no-gm.png?ex=6ab02f45&is=6aaeddc5&hm=fbc22d7f18e52f4814e67919bbe646eb11587f9aae1b99af9caf2d42d30e4778&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550946922171207750/AP1GczOnpcWLZeS1L-eCI9QS6IgJt6UnMYDlXCWfZuzQDVuzrwHzd89ZbYbDXQw353-h628-s-no-gm.png?ex=6ab02f61&is=6aaedde1&hm=92571fee2cd527704b0f4d535433ed1555242348add58c9a272c2cc74a76047e&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550947246210682920/AP1GczOkAB0u--JaMeqpO9VM-xdv2wnrhIvwiZwsMPl_D8ssIQdUTs9pWSwF9Qw357-h628-s-no-gm.png?ex=6ab02fae&is=6aaede2e&hm=c9ccaeba4d3f5bd52008c1e9378c6c5f663db36f841bac7abfe2401236377675&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550947416599953559/AP1GczOXBCAvl3sYCiwmgLM4-TdFJDRm52UiP3GpJOKQM7asNZeujXGyCB7Crww353-h628-s-no-gm.png?ex=6ab02fd7&is=6aaede57&hm=74435fbd3ee5a4e6be55edea4a7acd415a4b957f93a457dac44f5a4af3db0cef&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550947771626946731/AP1GczNUdFQEGIPGPMS29OD-k96sndiCdU3eWKzTW9phRWX_33QA-nQM7SBymAw635-h476-s-no-gm.png?ex=6ab0302b&is=6aaedeab&hm=1da96f57ae15492a1ba6b6a0ca4b84562ca906ad54fdfbf6a5116f7494a97a32&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550947967807266897/AP1GczNyCPFo_ildZO45fLXYqK-dBRqjvvYS6RaUwZ-QhTvRwJ8AW0qqGRj4uQw471-h628-s-no-gm.png?ex=6ab0305a&is=6aaededa&hm=57be34ffc1b9eddc835fe64cb2a0e2ca91a5f062d7620df6ab9548f2e5199fec&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948019275309207/AP1GczMJE7DQ31DI9IAcRb6b8J007LVuM78FoWXInJHNc_yZOUJE7O-dDR6nZQw471-h628-s-no-gm.png?ex=6ab03067&is=6aaedee7&hm=cc8746781903ea26ea8b36af5ac30990adf82599875abf55c8bc7f2d3a59e504&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948093829062728/AP1GczO6TtiB0jUpOo7jtljkDonxYH21lqVs4BEIzXUt9DnOZUGOA_Z073HBcQw290-h628-s-no-gm.png?ex=6ab03078&is=6aaedef8&hm=b42235c3168db0148121f0b2c3ec5786c5ae20c846c65cbb0f53aeb63ff17ef2&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948146643730532/AP1GczO9KKdb4uN7UbKyqi3Uj5aJ46HmbiJw62_YnaS68MCXujT3rxtkJ1M-DQw353-h628-s-no-gm.png?ex=6ab03085&is=6aaedf05&hm=fddcf630041b17dba2380dc0eaaaa36d23974266e52e9ccb18327cb64f773799&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948227790930040/AP1GczORITRe3q3hjlp_h0cwj8twloOLfxpjzugEQvjfu5qmRj-xm-tOBWi3GAw353-h628-s-no-gm.png?ex=6ab03098&is=6aaedf18&hm=e8fbe8a81f6b6df33dc342c649602505d9b8777899d56e241b88429339b8da34&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948306291654657/AP1GczM2M80do5dYJ_cLJiDM2fSK2echw9Khv-FOeD6aF1SGzM-e1gGBkMJHLgw635-h293-s-no-gm.png?ex=6ab030ab&is=6aaedf2b&hm=336950e9ad89998aa608d4da75699438affaaa5ab372bf758661f3eda36a8541&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948423987892304/AP1GczOc4xA4HasgB5lJGKk0UQXZx2_a53t9A7UmsrhsvnL0jNKGbpywePZEUAw635-h293-s-no-gm.png?ex=6ab030c7&is=6aaedf47&hm=4bf04c7a92ccdabab037f4026711829fac3d561b26bbe4654644180c008dd591&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948498034131094/AP1GczN9HhVXIi5o47jWX6UAvKCX6O2ohxywxNXlvbuwFjnr8NeuJytGxwp7GQw290-h628-s-no-gm.png?ex=6ab030d9&is=6aaedf59&hm=1c08d51b5db661187e7b2ce2b8537ede6f0e821fa547e325b03caba22a90a28a&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948601247694938/AP1GczOWxnNX8zxX9Q47UZZbzQtzkDmjXofoLHoOjxmUr_cOOGZ90kTjTAKZ1gw471-h628-s-no-gm.png?ex=6ab030f1&is=6aaedf71&hm=3b20753e17a45ce093fd11a9411289b5a8b446b6148335279058caed0bea045f&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948875240472616/6e7bdebe-23a2-4b97-a7cf-83100a8fc863.png?ex=6ab03133&is=6aaedfb3&hm=655554c77c7c2fc407282a73f39109d09c10ae370e707a712cc2797396fc9e77&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550948951731998881/8554b0f9-fd71-4f0a-9224-561cc20b982a.png?ex=6ab03145&is=6aaedfc5&hm=f03021d9e93cd91d0bdfff780f24d151f61e6f822fe9ec75f20ba3fa522480d6&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550952944491438241/6f195563-e5f2-42e7-b65a-79d6849769f6.png?ex=6ab034fd&is=6aaee37d&hm=152b7f493a8b04deb6d196bbcae2f0a4b73fe41fa4d9fe0af1dc0bb5fface62a&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550952979178332220/f4283614-fb6d-42e2-8028-22e7eca57519.png?ex=6ab03505&is=6aaee385&hm=9451ffc746d777bae5c2c05cfde12282a535995f88ad7a651ecdcfd8a7523273&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550953023021387836/a31cf324-2879-4887-8ce1-48de3325d91e.png?ex=6ab03510&is=6aaee390&hm=d40237b54725f1ad3b7bbeeb3cd9b43f961bec93dcf9013c05b2b4c1223afdef&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550953051731529818/6a415246-e002-4c66-b7e8-770745e18bb3.png?ex=6ab03516&is=6aaee396&hm=59ab811f8999bf6326f65039e73903557229b9faf801a998f601a8d45db9fbd8&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550953091040411648/930536be-62e5-46e7-a92f-c6208d65de71.png?ex=6ab03520&is=6aaee3a0&hm=ad9b3ba1a790f7b852b1ae1f426b9ce9ef2dfe7fecf0d8d31c2a22bc38303251&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550953119720931368/71c7426d-1cf7-4ed8-b13c-517700d1c37c.png?ex=6ab03527&is=6aaee3a7&hm=34b080ef71c9642b54bdabb9a61983164fadab0d5b786eb312edbecbbfe23bf7&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550953156643659816/faee9757-52b3-407e-8515-8da3b83623e8.png?ex=6ab0352f&is=6aaee3af&hm=d2ba25da522dad5dc471f91aaf1f91feae0613ab51fd7cabdf5b8080c5cfdf76&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550953184783241397/27d6dbab-88b7-4904-9d6e-637dabc0ac41.png?ex=6ab03536&is=6aaee3b6&hm=323c4f7d795b5bc2e7f85f5aa07352690145db782f455e96116a76b180f17ab5&)",
+                "url(https://cdn.discordapp.com/attachments/922340247428268113/1550953215271370803/44e0ee2e-56e2-4b39-b39f-ed6121448d5b.png?ex=6ab0353d&is=6aaee3bd&hm=342294936f1499876d8cbda1b600d44b83f65790c510dd18faa2cdf98c7ee6d6&)"
+            ];
+            // ==========================================
+
+            const hideEl = document.getElementById('screen-3');
+            const showEl = document.getElementById('screen-epic');
+            hideEl.classList.remove('active-screen');
+            showEl.classList.add('active-screen');
+            
+            const detSoul = soulsData[6];
+            changeMusic(detSoul.music); 
+            
+            const container = document.getElementById('epic-souls-container');
+            container.innerHTML = ""; 
+            
+            const prevColors = ["#00ffff", "#0000ff", "#800080", "#ffa500", "#00ff00", "#ffff00"];
+            const radiusSmall = 40; 
+            const radiusLarge = 190; 
+            
+            const heartElements = [];
+
+            // 1. DIBUJAR LOS 6 CORAZONES EN PIXEL ART
+            prevColors.forEach((color, i) => {
+                const heart = document.createElement('div');
+                heart.className = 'absolute opacity-0 transition-all duration-1000';
+                heart.style.color = color;
+                heart.style.width = '30px';
+                heart.style.height = '30px';
+                
+                heart.innerHTML = `
+                    <svg viewBox="0 0 16 16" style="fill: currentColor; width: 100%; height: 100%; filter: drop-shadow(0 0 8px ${color});">
+                        <path d="M 0 3 h 1 v -1 h 1 v -1 h 4 v 1 h 1 v 1 h 2 v -1 h 1 v -1 h 4 v 1 h 1 v 1 h 1 v 5 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -1 v 1 h -2 v -1 h -1 v -1 h -1 v -1 h -1 v -1 h -1 v -1 h -1 v -1 h -1 v -1 h -1 v -5 Z" />
+                    </svg>`;
+                
+                const angle = (i * Math.PI * 2) / 6;
+                const x = Math.cos(angle) * radiusSmall;
+                const y = Math.sin(angle) * radiusSmall;
+                
+                heart.style.left = `calc(50% + ${x}px)`;
+                heart.style.top = `calc(50% + ${y}px)`;
+                heart.style.transform = "translate(-50%, -50%)"; 
+                
+                container.appendChild(heart);
+                heartElements.push({ el: heart, angle: angle });
+            });
+            
+            let delayTotal = tiempoEsperaInicial;
+
+            // 2. HACERLOS APARECER UNO POR UNO
+            for(let i=0; i<6; i++) {
+                setTimeout(() => {
+                    heartElements[i].el.style.opacity = "1";
+                    playBlip(); 
+                }, delayTotal);
+                delayTotal += tiempoAparicionCorazones; 
+            }
+            
+            // 3. SEPARARLOS Y EMPEZAR A GIRAR
+            delayTotal += tiempoParaSepararse;
+            let slideInterval;
+
+            setTimeout(() => {
+                container.classList.add('spin-container');
+                
+                heartElements.forEach(item => {
+                    const x = Math.cos(item.angle) * radiusLarge;
+                    const y = Math.sin(item.angle) * radiusLarge;
+                    item.el.style.left = `calc(50% + ${x}px)`;
+                    item.el.style.top = `calc(50% + ${y}px)`;
+                    item.el.classList.add('counter-spin');
+                });
+
+                const photosEl = document.getElementById('epic-photos');
+                photosEl.style.opacity = "1";
+                
+                let fotoIndex = 0;
+                slideInterval = setInterval(() => {
+                    photosEl.style.backgroundImage = fotosSharon[fotoIndex % fotosSharon.length];
+                    fotoIndex++;
+                }, tiempoFotos);
+
+            }, delayTotal);
+
+            // 4. EL CLÍMAX (APARECE EL ALMA ROJA ESTÁTICA)
+            delayTotal += tiempoHastaElDrop;
+            setTimeout(() => {
+                clearInterval(slideInterval);
+                document.getElementById('epic-photos').style.opacity = "0";
+                
+                const redSoul = document.getElementById('epic-red-soul');
+                redSoul.classList.remove('hidden');
+                // NOTA: Ya no le agregamos la clase de parpadeo aquí
+                playStaticSound(); 
+
+            }, delayTotal);
+
+            // 4.5. EMPIEZA A PARPADEAR EL ALMA ROJA
+            delayTotal += tiempoRojaEstatica;
+            setTimeout(() => {
+                const redSoul = document.getElementById('epic-red-soul');
+                redSoul.classList.add('soul-blink'); // Ahora sí empieza a parpadear
+            }, delayTotal);
+
+            // 5. FLASH BLANCO Y TRANSICIÓN FINAL A DETERMINACIÓN
+            delayTotal += tiempoDeParpadeoRojo;
+            setTimeout(() => {
+                const flash = document.getElementById('flash-overlay');
+                flash.classList.remove('hidden');
+                flash.classList.add('white-flash');
+                playStaticSound(); 
+                
+                setTimeout(() => {
+                    showEl.classList.remove('active-screen');
+                    hideEl.classList.add('active-screen');
+                    
+                    flash.style.opacity = "0";
+                    setTimeout(() => flash.classList.add('hidden'), 1000);
+                    
+                    loadNextSoul(); 
+                }, 100); 
+
+            }, delayTotal);
+        }
+       // ==========================================
+        // PANTALLA 4: FINAL Y TROLEO RICKROLL
+        // ==========================================
+        let rickRollClicked = false;
+
+        function startEnding() {
+            // Poner la música final (puedes cambiarla por la que quieras)
+            changeMusic("Last Goodbye.mp3"); 
+            
+            typeWriter('final-text', finalText, 60, () => {
+                const giftContainer = document.getElementById('steam-gift-container');
+                giftContainer.classList.remove('hidden');
+                giftContainer.classList.add('flex', 'fade-in');
+            });
+        }
+
+        // Detectar cuando le da clic al botón trampa
+        document.getElementById('btnRickRoll').addEventListener('click', () => {
+            rickRollClicked = true;
+        });
+
+        // Detectar cuando ella regresa a esta pestaña
+        window.addEventListener('focus', () => {
+            if (rickRollClicked) {
+                const btn = document.getElementById('btnRickRoll');
+                const baitMsg = document.getElementById('bait-msg');
+                
+                // Desaparecer el botón falso
+                btn.style.display = 'none';
+                
+                // Mostrar el texto del bait usando el motor de Undertale
+                baitMsg.classList.remove('hidden');
+                typeWriter('bait-msg', "es bait, revisa tu bandeja de steam uwu", 50);
+                
+                // Evitar que la animación se repita si vuelve a cambiar de pestaña
+                rickRollClicked = false; 
+            }
+        });
+    </script>
+</body>
+</html>
